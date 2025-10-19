@@ -1,5 +1,6 @@
+import { Submission } from "src/submissions/entities/submission.entity";
 import { User } from "src/users/entities/user.entity";
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, JoinColumn, OneToOne } from "typeorm";
 
 @Entity('projects')
 export class Project {
@@ -7,7 +8,7 @@ export class Project {
     id: string
     
     @ManyToOne(() => User, (user) => user.projects)
-    @JoinTable()
+    @JoinColumn()
     user: User
 
     @Column()
@@ -15,6 +16,10 @@ export class Project {
 
     @Column()
     set: string
+
+    @OneToOne(() => Submission, (submission) => submission.project)
+    @JoinColumn()
+    submission: Submission
 
     @Column({type: 'timestamp', nullable: true})
     dueDate: Date
