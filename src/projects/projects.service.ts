@@ -39,7 +39,7 @@ export class ProjectsService {
 
   async findYourProjects(set: string, data: YourProject){
     if(set == null){
-      const projects = await this.projectRepo.find({where : {set}})
+      const projects = await this.projectRepo.find({where : {user: {id: data.userId}}, relations: ['user']})
       if(!projects.length) throw new NotFoundException("No project found");
       return projects;
     }

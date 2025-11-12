@@ -52,7 +52,7 @@ export class UsersService {
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
-    if(!isPasswordValid) throw new Error("Invalid credentials");
+    if(!isPasswordValid) throw new UnauthorizedException("Invalid credentials");
 
     const payload = {sub: user.id, username: user.username, role: user.role}
     const { password: _, ...userWithoutPass } = user;
