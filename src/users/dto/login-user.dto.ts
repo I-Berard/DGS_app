@@ -7,15 +7,10 @@ export class LoginUserDto {
   @IsOptional()
   username?: string;
 
-  @ApiPropertyOptional({ description: 'Sandai email of the user', example: '' })
+  @ApiPropertyOptional({ description: 'Email of the user (personal or Sandai)', example: 'johndoe@example.com' })
   @IsEmail()
   @IsOptional()
-  sandai_email?: string;
-
-  @ApiPropertyOptional({ description: 'Personal email of the user', example: '' })
-  @IsEmail()
-  @IsOptional()
-  personal_email?: string;
+  email?: string;
 
   @ApiProperty({ description: 'Password of the user', example: 'Password123!' })
   @IsString()

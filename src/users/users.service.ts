@@ -34,16 +34,16 @@ export class UsersService {
   }
 
   async login(LoginUserDto: LoginUserDto){
-    const { username, sandai_email, personal_email, password } = LoginUserDto;
+    const { username, email, password } = LoginUserDto;
 
-    if(!username && !sandai_email && !personal_email) throw new BadRequestException("Provide email or username")
+    if(!username && !email) throw new BadRequestException("Provide email or username")
     if(!password) throw new BadRequestException("No password provided")
 
     const user = await this.userRepo.findOne({
       where: [
         {username},
-        {sandai_email},
-        {personal_email}
+        {sandai_email: email},
+        {personal_email: email}
       ]
     })
 
@@ -55,7 +55,8 @@ export class UsersService {
     if(!isPasswordValid) throw new Error("Invalid credentials");
 
     const payload = {sub: user.id, username: user.username, role: user.role}
-    return {access_token: this.jwtService.sign(payload)};
+    const { password: _, ...userWithoutPass } = user;
+    return {access_token: this.jwtService.sign(payload), user: userWithoutPass};
   }
 
   async findAll() {
