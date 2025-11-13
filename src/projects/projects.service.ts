@@ -34,7 +34,7 @@ export class ProjectsService {
   }
 
   findOne(id: string) {
-    return this.projectRepo.findOne({where: {id}});
+    return this.projectRepo.findOne({where: {id}, relations: ['user']});
   }
 
   async findYourProjects(set: string, data: YourProject){
